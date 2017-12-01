@@ -5,10 +5,12 @@ const bodyParser = require('body-parser')
 const mognoose = require('mongoose');
 const app = express();
 
+const router = require('./router.js')
+
 // App setup
 app.use(morgan('combined'));
 app.use(bodyParser.json({ type: '*/*' }));
-
+router(app);
 
 
 
