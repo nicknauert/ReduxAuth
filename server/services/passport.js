@@ -7,15 +7,19 @@ const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt-nodejs');
 
 // Setup for Local strat
-const localOptions = { userNameField: 'email' }
-const localLogin = new LocalStrategy( localOptions, function(localOptions, email, password, done){
+const localOptions = { usernameField: 'email' }
+const localLogin = new LocalStrategy( localOptions, function( email, password, done){
+  console.log("============ LOCAL LOGIN FIRED ============");
   User.findOne({ email: email}, function(err, user){
-    if ( err ) { return done(err, false); }
-    
-    if ( !user ){ return done( null, false); }
+    if (err)  { return done(err); }
+    if (!user){ return done(null, false); }
 
+    user.comparePassword(password, function(err, isMatch){
+      if ( err ) { return done(err); }
+      if ( !isMatch ){ return done(null, false); }
 
-  
+      return done(null, user);
+    })
   })
 })
 
@@ -44,3 +48,4 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done){
 // Tell Passport to use this strat
 
 passport.use(jwtLogin);
+passport.use(localLogin);
