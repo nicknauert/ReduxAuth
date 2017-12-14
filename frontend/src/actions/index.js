@@ -3,6 +3,7 @@ import axios from 'axios';
 const ROOT_URL = 'http://localhost:3090';
 
 export function signinUser({ email, password }) {
+  console.log(email, password);
   return function(dispatch){
     // submit email/pass to server
     axios.post(`${ROOT_URL}/signin`, { email, password });
@@ -13,7 +14,6 @@ export function signinUser({ email, password }) {
     
     //if req is bad..
     // - show error to user
-    
 
   }
 }
