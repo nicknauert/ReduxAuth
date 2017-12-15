@@ -12,8 +12,9 @@ export function signinUser({ email, password }) {
           .then( res => {
             // if req is good
             // - update state ti indicate user is authed
-            dispatch({ type: AUTH_USER,  }) 
+            dispatch({ type: AUTH_USER  }) 
             // - save JWT token
+            localStorage.setItem("JWT_TOKEN", res.data.token);
             // - redirect to /feature
             browserHistory.push('/feature')
             
