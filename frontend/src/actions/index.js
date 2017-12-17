@@ -3,7 +3,8 @@ import { browserHistory } from 'react-router';
 import {
   AUTH_USER,
   AUTH_ERROR,
-  UNAUTH_USER
+  UNAUTH_USER,
+  FETCH_MESSAGE
 } from './types';
 
 const ROOT_URL = 'http://localhost:3090';
@@ -55,5 +56,22 @@ export function authError(error) {
   return {
     type: AUTH_ERROR,
     payload: error
+  }
+}
+
+export function fetchMessage(){
+  return function(dispatch){
+    const token = localStorage.getItem('JWT_TOKEN');
+    
+    axios.get(ROOT_URL, {
+      headers: { authorization: token }
+    })
+      .then(res => {
+        console.log(res);
+        dispatch({
+          type: FETCH_MESSAGE,
+          payload: res.data.message
+        })
+      })
   }
 }
