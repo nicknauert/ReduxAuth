@@ -31,6 +31,12 @@ export function signinUser({ email, password }) {
   }
 }
 
+export function signupUser({ email, password }){
+  return function(dispatch){
+    axios.post(`${ROOT_URL}/signup`, { email, password })
+  }
+}
+
 export function signoutUser(){
   localStorage.removeItem("JWT_TOKEN");
   return { type: UNAUTH_USER };
